@@ -1,8 +1,16 @@
+(global XMLNS "http://www.w3.org/1999/xhtml")
+
 (set &html (NuMarkupOperator operatorWithTag:"html" prefix:<<-END
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-END))
+END contents:(list xmlns:XMLNS)))
 
-(global XMLNS "http://www.w3.org/1999/xhtml")
+(set &xhtml-transitional (NuMarkupOperator operatorWithTag:"html" prefix:<<-END
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+END contents:(list xmlns:XMLNS)))
+
+(set &xhtml-strict (NuMarkupOperator operatorWithTag:"html" prefix:<<-END
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+END contents:(list xmlns:XMLNS)))
 
 (macro markup (*names)
      `(progn
@@ -30,7 +38,7 @@ END))
         h6
         img
         input
-	label
+        label
         li
         link
         meta
@@ -45,7 +53,7 @@ END))
         style
         table
         td
-	textarea
+        textarea
         th
         title
         tr

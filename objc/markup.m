@@ -12,10 +12,11 @@
 {
     NSString *tag;
     NSString *prefix;
+    id contents;
 }
 
 - (id) initWithTag:(NSString *) tag;
-- (id) initWithTag:(NSString *) tag prefix:(NSString *) prefix;
+- (id) initWithTag:(NSString *) tag prefix:(NSString *) prefix contents:(id) contents;
 @end
 
 @implementation NuMarkupOperator
@@ -25,21 +26,27 @@
     return [[[self alloc] initWithTag:_tag] autorelease];
 }
 
-+ (id) operatorWithTag:(NSString *) _tag prefix:(NSString *) _prefix
++ (id) operatorWithTag:(NSString *) _tag prefix:(NSString *) _prefix 
 {
-    return [[[self alloc] initWithTag:_tag prefix:_prefix] autorelease];
+    return [[[self alloc] initWithTag:_tag prefix:_prefix contents:nil] autorelease];
+}
+
++ (id) operatorWithTag:(NSString *) _tag prefix:(NSString *) _prefix contents:(id) _contents
+{
+    return [[[self alloc] initWithTag:_tag prefix:_prefix contents:_contents] autorelease];
 }
 
 - (id) initWithTag:(NSString *) _tag
 {
-    return [self initWithTag:_tag prefix:nil];
+    return [self initWithTag:_tag prefix:nil contents:nil];
 }
 
-- (id) initWithTag:(NSString *) _tag prefix:(NSString *) _prefix
+- (id) initWithTag:(NSString *) _tag prefix:(NSString *) _prefix contents:(id) _contents
 {
     self = [super init];
     tag = _tag ? [_tag retain] : @"undefined-element";
     prefix = _prefix ? [_prefix retain] : @"";
+    contents = _contents ? [_contents retain] : [NSNull null];
     return self;
 }
 
@@ -53,36 +60,39 @@
         NuSymbol = NSClassFromString(@"NuSymbol");
     }
 
-    id cursor = cdr;
-    while (cursor && (cursor != [NSNull null])) {
-        id item = [cursor car];
-        if ([item isKindOfClass:[NuSymbol class]] && [item isLabel]) {
-            cursor = [cursor cdr];
-            if (cursor && (cursor != [NSNull null])) {
-                id value = [[cursor car] evalWithContext:context];
-                [attributes appendFormat:@" %@=\"%@\"", [item labelName], [value stringValue]];
-            }
-        }
-        else {
-            id evaluatedItem = [item evalWithContext:context];
-            if ([evaluatedItem isKindOfClass:[NSString class]]) {
-                [body appendString:evaluatedItem];
-            }
-            else if ([evaluatedItem isKindOfClass:[NSArray class]]) {
-                int max = [evaluatedItem count];
-                for (int i = 0; i < max; i++) {
-                    [body appendString:[evaluatedItem objectAtIndex:i]];
+    for (int i = 0; i < 2; i++) {
+        id cursor = (i == 0) ? contents : cdr;
+        while (cursor && (cursor != [NSNull null])) {
+            id item = [cursor car];
+            if ([item isKindOfClass:[NuSymbol class]] && [item isLabel]) {
+                cursor = [cursor cdr];
+                if (cursor && (cursor != [NSNull null])) {
+                    id value = [[cursor car] evalWithContext:context];
+		    id attributeName = [[item labelName] stringByReplacingOccurrencesOfString:@"=" withString:@":"];
+                    [attributes appendFormat:@" %@=\"%@\"", attributeName, [value stringValue]];
                 }
             }
-            else if (evaluatedItem == [NSNull null]) {
-               // do nothing
-            }
             else {
-                [body appendString:[evaluatedItem stringValue]];
+                id evaluatedItem = [item evalWithContext:context];
+                if ([evaluatedItem isKindOfClass:[NSString class]]) {
+                    [body appendString:evaluatedItem];
+                }
+                else if ([evaluatedItem isKindOfClass:[NSArray class]]) {
+                    int max = [evaluatedItem count];
+                    for (int i = 0; i < max; i++) {
+                        [body appendString:[evaluatedItem objectAtIndex:i]];
+                    }
+                }
+                else if (evaluatedItem == [NSNull null]) {
+                   // do nothing
+                }
+                else {
+                    [body appendString:[evaluatedItem stringValue]];
+                }
             }
+            if (cursor && (cursor != [NSNull null]))
+                cursor = [cursor cdr];
         }
-        if (cursor && (cursor != [NSNull null]))
-            cursor = [cursor cdr];
     }
 
     if ([body length]) {
