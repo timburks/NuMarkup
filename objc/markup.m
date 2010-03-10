@@ -12,10 +12,12 @@
 {
     NSString *tag;
     NSString *prefix;
+    BOOL empty;
 }
 
 - (id) initWithTag:(NSString *) tag;
 - (id) initWithTag:(NSString *) tag prefix:(NSString *) prefix;
+- (void) setEmpty:(BOOL) e;
 @end
 
 @implementation NuMarkupOperator
@@ -41,6 +43,10 @@
     tag = _tag ? [_tag retain] : @"undefined-element";
     prefix = _prefix ? [_prefix retain] : @"";
     return self;
+}
+
+- (void) setEmpty:(BOOL) e {
+   empty = e;
 }
 
 - (id) callWithArguments:(id)cdr context:(NSMutableDictionary *)context
@@ -85,7 +91,7 @@
             cursor = [cursor cdr];
     }
 
-    if ([body length]) {
+    if ([body length] || !empty) {
         return [NSString stringWithFormat:@"%@<%@%@>%@</%@>", prefix, tag, attributes, body, tag];
     }
     else {

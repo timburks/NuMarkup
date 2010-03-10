@@ -30,7 +30,7 @@ END))
         h6
         img
         input
-	label
+        label
         li
         link
         meta
@@ -45,9 +45,18 @@ END))
         style
         table
         td
-	textarea
+        textarea
         th
         title
         tr
         tbody
         ul)
+
+(send &meta setEmpty:YES)
+(send &link setEmpty:YES)
+(send &hr setEmpty:YES)
+(send &br setEmpty:YES)
+(send &img setEmpty:YES)
+(send &area setEmpty:YES)
+(send &input setEmpty:YES)
+(send &col setEmpty:YES)
