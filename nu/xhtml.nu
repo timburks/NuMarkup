@@ -23,9 +23,11 @@ END contents:(list xmlns:XMLNS)))
 
 # add tags as needed
 (markup a
+	area
         body
         br
         button
+        col
         div
         fieldset
         form
@@ -36,6 +38,7 @@ END contents:(list xmlns:XMLNS)))
         h4
         h5
         h6
+        hr
         img
         input
         label
