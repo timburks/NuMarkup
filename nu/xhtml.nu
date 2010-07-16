@@ -29,6 +29,7 @@ END contents:(list xmlns:XMLNS)))
         button
         col
         div
+	em
         fieldset
         form
         head
