@@ -40,6 +40,7 @@ END contents:(list xmlns:XMLNS)))
         h5
         h6
         hr
+        iframe
         img
         input
         label
