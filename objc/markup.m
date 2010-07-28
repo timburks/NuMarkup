@@ -82,7 +82,10 @@
             }
             else {
                 id evaluatedItem = [item evalWithContext:context];
-                if ([evaluatedItem isKindOfClass:[NSString class]]) {
+                if (!evaluatedItem || (evaluatedItem == [NSNull null])) {
+                    // do nothing
+                }
+                else if ([evaluatedItem isKindOfClass:[NSString class]]) {
                     [body appendString:evaluatedItem];
                 }
                 else if ([evaluatedItem isKindOfClass:[NSArray class]]) {
@@ -90,9 +93,6 @@
                     for (int i = 0; i < max; i++) {
                         [body appendString:[evaluatedItem objectAtIndex:i]];
                     }
-                }
-                else if (evaluatedItem == [NSNull null]) {
-                    // do nothing
                 }
                 else {
                     [body appendString:[evaluatedItem stringValue]];
