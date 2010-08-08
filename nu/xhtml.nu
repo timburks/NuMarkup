@@ -23,13 +23,16 @@ END contents:(list xmlns:XMLNS)))
 
 # add tags as needed
 (markup a
-	area
+        area
         body
         br
         button
         col
         div
-	em
+        dd
+        dl
+        dt
+        em
         fieldset
         form
         head

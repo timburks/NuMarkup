@@ -77,7 +77,8 @@
                 if (cursor && (cursor != [NSNull null])) {
                     id value = [[cursor car] evalWithContext:context];
                     id attributeName = [[item labelName] stringByReplacingOccurrencesOfString:@"=" withString:@":"];
-                    [attributes appendFormat:@" %@=\"%@\"", attributeName, [value stringValue]];
+                    id stringValue = [value isEqual:[NSNull null]] ? @"" : [value stringValue];
+                    [attributes appendFormat:@" %@=\"%@\"", attributeName, stringValue];
                 }
             }
             else {
