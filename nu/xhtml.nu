@@ -24,6 +24,7 @@ END contents:(list xmlns:XMLNS)))
 # add tags as needed
 (markup a
         area
+        blockquote
         body
         br
         button
