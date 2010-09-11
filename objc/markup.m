@@ -92,7 +92,8 @@
                 else if ([evaluatedItem isKindOfClass:[NSArray class]]) {
                     int max = [evaluatedItem count];
                     for (int i = 0; i < max; i++) {
-                        [body appendString:[evaluatedItem objectAtIndex:i]];
+						id objectAtIndex = [evaluatedItem objectAtIndex:i];
+                        [body appendString:[objectAtIndex stringValue]];
                     }
                 }
                 else {
@@ -111,5 +112,10 @@
         return [NSString stringWithFormat:@"%@<%@%@/>", prefix, tag, attributes];
     }
 }
+
+- (NSString *) tag {return tag;}
+- (NSString *) prefix {return prefix;}
+- (id) contents {return contents;}
+- (BOOL) empty {return empty;}
 
 @end
