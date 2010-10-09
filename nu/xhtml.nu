@@ -1,3 +1,5 @@
+(load "NuMarkup:macros")
+
 (global XMLNS "http://www.w3.org/1999/xhtml")
 
 (set &html (NuMarkupOperator operatorWithTag:"html" prefix:<<-END
@@ -11,15 +13,6 @@ END contents:(list xmlns:XMLNS)))
 (set &xhtml-strict (NuMarkupOperator operatorWithTag:"html" prefix:<<-END
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 END contents:(list xmlns:XMLNS)))
-
-(macro markup (*names)
-     `(progn
-            (',*names each:
-                 (do (name)
-                     (set stringName (name stringValue))
-                     (set expression
-                          (list 'global ((+ "&" stringName) symbolValue) '(NuMarkupOperator operatorWithTag:stringName)))
-                     (eval expression)))))
 
 # add tags as needed
 (markup a
