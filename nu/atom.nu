@@ -4,16 +4,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 END))
 
-# add tags as needed
-(markup title
-        subtitle
-        id
-        generator
-        link
-        updated
-        entry
-        author
-        published
-        content
-        name)
+(set &service (NuMarkupOperator operatorWithTag:"service" prefix:<<-END
+<?xml version="1.0" encoding="UTF-8"?>
+END))
 
+;; add tags as needed
+(markup accept
+        author
+        category
+        collection
+        content
+        entry
+        generator
+        id
+        link
+        name
+        published
+        rights
+        subtitle
+        summary
+        title
+        updated
+        workspace)
+
+;; dashed markup
+(markup app-control
+        app-draft
+        app-edited
+        atom-title)
