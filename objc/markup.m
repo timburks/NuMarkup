@@ -47,7 +47,7 @@
 - (id) initWithTag:(NSString *) _tag prefix:(NSString *) _prefix contents:(id) _contents
 {
     self = [super init];
-    tag = _tag ? [_tag retain] : @"undefined-element";
+    tag = _tag ? [_tag retain] : nil;
     prefix = _prefix ? [_prefix retain] : @"";
     contents = _contents ? [_contents retain] : [NSNull null];
     return self;
@@ -92,7 +92,7 @@
                 else if ([evaluatedItem isKindOfClass:[NSArray class]]) {
                     int max = [evaluatedItem count];
                     for (int i = 0; i < max; i++) {
-						id objectAtIndex = [evaluatedItem objectAtIndex:i];
+                        id objectAtIndex = [evaluatedItem objectAtIndex:i];
                         [body appendString:[objectAtIndex stringValue]];
                     }
                 }
@@ -105,7 +105,10 @@
         }
     }
 
-    if ([body length] || !empty) {
+    if (!tag) {
+        return body;
+    }
+    else if ([body length] || !empty) {
         return [NSString stringWithFormat:@"%@<%@%@>%@</%@>", prefix, tag, attributes, body, tag];
     }
     else {
