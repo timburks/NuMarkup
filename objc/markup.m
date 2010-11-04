@@ -47,7 +47,7 @@
 - (id) initWithTag:(NSString *) _tag prefix:(NSString *) _prefix contents:(id) _contents
 {
     self = [super init];
-    tag = _tag ? [_tag retain] : nil;
+    tag = _tag ? [[_tag stringByReplacingOccurrencesOfString:@"=" withString:@":"] retain] : nil;
     prefix = _prefix ? [_prefix retain] : @"";
     contents = _contents ? [_contents retain] : [NSNull null];
     return self;

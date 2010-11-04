@@ -21,6 +21,7 @@ END contents:(list xmlns:XMLNS)))
         body
         br
         button
+        code
         col
         div
         dd
