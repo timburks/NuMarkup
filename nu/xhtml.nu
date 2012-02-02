@@ -30,6 +30,7 @@ END contents:(list xmlns:XMLNS)))
         em
         fieldset
         form
+        footer
         head
         h1
         h2
